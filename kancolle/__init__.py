@@ -1,4 +1,5 @@
 """Top-level package for kancolle."""
+from . import data, models
 
 __author__ = """Andy Chu"""
 __email__ = '-'
