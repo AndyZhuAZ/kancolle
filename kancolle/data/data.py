@@ -34,7 +34,7 @@ def save_data(data, file_name):
         None
     """
     file_name = path.join(MODULE_PATH, file_name)
-    with open(file_name, 'w') as f:
+    with open(file_name, 'w', encoding="utf-8") as f:
         f.write(json.dumps(data, ensure_ascii=False, indent=4))
 
 
@@ -48,7 +48,7 @@ def load_data(file_name):
         dict
     """
     file_name = path.join(MODULE_PATH, file_name)
-    with open(file_name, 'r') as f:
+    with open(file_name, 'r', encoding="utf-8") as f:
         return json.loads(f.read())
 
 
