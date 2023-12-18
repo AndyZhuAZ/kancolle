@@ -70,3 +70,14 @@ def test_command_line_interface():
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output
+
+
+def test_data_download():
+    """Test data download."""
+    from kancolle.data import data
+
+    data.download()
+
+    assert type(data.load_ship_data()) == list
+    assert type(data.load_ship_class_data()) == list
+    assert type(data.load_ship_type_data()) == list
