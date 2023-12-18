@@ -1,0 +1,397 @@
+[
+    {
+        "id": 1,
+        "name": "綾波型",
+        "chinese_name": "绫波型"
+    },
+    {
+        "id": 2,
+        "name": "伊勢型",
+        "chinese_name": "伊势型"
+    },
+    {
+        "id": 3,
+        "name": "加賀型",
+        "chinese_name": "加贺型"
+    },
+    {
+        "id": 4,
+        "name": "球磨型",
+        "chinese_name": "球磨型"
+    },
+    {
+        "id": 5,
+        "name": "暁型",
+        "chinese_name": "晓型"
+    },
+    {
+        "id": 6,
+        "name": "金剛型",
+        "chinese_name": "金刚型"
+    },
+    {
+        "id": 7,
+        "name": "古鷹型",
+        "chinese_name": "古鹰型"
+    },
+    {
+        "id": 8,
+        "name": "高雄型",
+        "chinese_name": "高雄型"
+    },
+    {
+        "id": 9,
+        "name": "最上型",
+        "chinese_name": "最上型"
+    },
+    {
+        "id": 10,
+        "name": "初春型",
+        "chinese_name": "初春型"
+    },
+    {
+        "id": 11,
+        "name": "祥鳳型",
+        "chinese_name": "祥凤型"
+    },
+    {
+        "id": 12,
+        "name": "吹雪型",
+        "chinese_name": "吹雪型"
+    },
+    {
+        "id": 13,
+        "name": "青葉型",
+        "chinese_name": "青叶型"
+    },
+    {
+        "id": 14,
+        "name": "赤城型",
+        "chinese_name": "赤城型"
+    },
+    {
+        "id": 15,
+        "name": "千歳型",
+        "chinese_name": "千岁型"
+    },
+    {
+        "id": 16,
+        "name": "川内型",
+        "chinese_name": "川内型"
+    },
+    {
+        "id": 17,
+        "name": "蒼龍型",
+        "chinese_name": "苍龙型"
+    },
+    {
+        "id": 18,
+        "name": "朝潮型",
+        "chinese_name": "朝潮型"
+    },
+    {
+        "id": 19,
+        "name": "長門型",
+        "chinese_name": "长门型"
+    },
+    {
+        "id": 20,
+        "name": "長良型",
+        "chinese_name": "长良型"
+    },
+    {
+        "id": 21,
+        "name": "天龍型",
+        "chinese_name": "天龙型"
+    },
+    {
+        "id": 22,
+        "name": "島風型",
+        "chinese_name": "岛风型"
+    },
+    {
+        "id": 23,
+        "name": "白露型",
+        "chinese_name": "白露型"
+    },
+    {
+        "id": 24,
+        "name": "飛鷹型",
+        "chinese_name": "飞鹰型"
+    },
+    {
+        "id": 25,
+        "name": "飛龍型",
+        "chinese_name": "飞龙型"
+    },
+    {
+        "id": 26,
+        "name": "扶桑型",
+        "chinese_name": "扶桑型"
+    },
+    {
+        "id": 27,
+        "name": "鳳翔型",
+        "chinese_name": "凤翔型"
+    },
+    {
+        "id": 28,
+        "name": "睦月型",
+        "chinese_name": "睦月型"
+    },
+    {
+        "id": 29,
+        "name": "妙高型",
+        "chinese_name": "妙高型"
+    },
+    {
+        "id": 30,
+        "name": "陽炎型",
+        "chinese_name": "阳炎型"
+    },
+    {
+        "id": 31,
+        "name": "利根型",
+        "chinese_name": "利根型"
+    },
+    {
+        "id": 32,
+        "name": "龍驤型",
+        "chinese_name": "龙骧型"
+    },
+    {
+        "id": 33,
+        "name": "翔鶴型",
+        "chinese_name": "翔鹤型"
+    },
+    {
+        "id": 34,
+        "name": "夕張型",
+        "chinese_name": "夕张型"
+    },
+    {
+        "id": 35,
+        "name": "海大VI型",
+        "chinese_name": "海大VI型"
+    },
+    {
+        "id": 36,
+        "name": "巡潜乙型改二",
+        "chinese_name": "巡潜乙型改二"
+    },
+    {
+        "id": 37,
+        "name": "大和型",
+        "chinese_name": "大和型"
+    },
+    {
+        "id": 38,
+        "name": "夕雲型",
+        "chinese_name": "夕云型"
+    },
+    {
+        "id": 39,
+        "name": "巡潜乙型",
+        "chinese_name": "巡潜乙型"
+    },
+    {
+        "id": 40,
+        "name": "巡潜3型",
+        "chinese_name": "巡潜3型"
+    },
+    {
+        "id": 41,
+        "name": "阿賀野型",
+        "chinese_name": "阿贺野型"
+    },
+    {
+        "id": 43,
+        "name": "大鳳型",
+        "chinese_name": "大凤型"
+    },
+    {
+        "id": 44,
+        "name": "潜特型",
+        "chinese_name": "潜特型"
+    },
+    {
+        "id": 45,
+        "name": "特種船丙型",
+        "chinese_name": "特种船丙型"
+    },
+    {
+        "id": 46,
+        "name": "三式潜航輸送艇",
+        "chinese_name": "三式潜航输送艇"
+    },
+    {
+        "id": 47,
+        "name": "Bismarck級",
+        "chinese_name": "俾斯麦级"
+    },
+    {
+        "id": 48,
+        "name": "Z1型",
+        "chinese_name": "Z1型"
+    },
+    {
+        "id": 49,
+        "name": "工作艦",
+        "chinese_name": "工作舰"
+    },
+    {
+        "id": 50,
+        "name": "大鯨型",
+        "chinese_name": "大鲸型"
+    },
+    {
+        "id": 51,
+        "name": "龍鳳型",
+        "chinese_name": "龙凤型"
+    },
+    {
+        "id": 52,
+        "name": "大淀型",
+        "chinese_name": "大淀型"
+    },
+    {
+        "id": 53,
+        "name": "雲龍型",
+        "chinese_name": "云龙型"
+    },
+    {
+        "id": 54,
+        "name": "秋月型",
+        "chinese_name": "秋月型"
+    },
+    {
+        "id": 55,
+        "name": "Admiral Hipper級",
+        "chinese_name": "希佩尔海军上将级"
+    },
+    {
+        "id": 56,
+        "name": "香取型",
+        "chinese_name": "香取型"
+    },
+    {
+        "id": 57,
+        "name": "UボートIXC型",
+        "chinese_name": "U型潜水艇IXC型"
+    },
+    {
+        "id": 58,
+        "name": "V.Veneto級",
+        "chinese_name": "维内托级"
+    },
+    {
+        "id": 59,
+        "name": "秋津洲型",
+        "chinese_name": "秋津洲型"
+    },
+    {
+        "id": 60,
+        "name": "改風早型",
+        "chinese_name": "改风早型"
+    },
+    {
+        "id": 61,
+        "name": "Maestrale級",
+        "chinese_name": "西北风级"
+    },
+    {
+        "id": 62,
+        "name": "瑞穂型",
+        "chinese_name": "瑞穗型"
+    },
+    {
+        "id": 63,
+        "name": "Graf Zeppelin級",
+        "chinese_name": "齐柏林伯爵级"
+    },
+    {
+        "id": 64,
+        "name": "Zara級",
+        "chinese_name": "扎拉级"
+    },
+    {
+        "id": 65,
+        "name": "Iowa級",
+        "chinese_name": "衣阿华级"
+    },
+    {
+        "id": 66,
+        "name": "神風型",
+        "chinese_name": "神风型"
+    },
+    {
+        "id": 67,
+        "name": "Queen Elizabeth級",
+        "chinese_name": "伊丽莎白女王级"
+    },
+    {
+        "id": 68,
+        "name": "Aquila級",
+        "chinese_name": "天鹰座级"
+    },
+    {
+        "id": 69,
+        "name": "Lexington級",
+        "chinese_name": "列克星敦级"
+    },
+    {
+        "id": 70,
+        "name": "C.Teste級",
+        "chinese_name": "C.Teste级"
+    },
+    {
+        "id": 71,
+        "name": "巡潜甲型改二",
+        "chinese_name": "巡潜甲型改二"
+    },
+    {
+        "id": 72,
+        "name": "神威型",
+        "chinese_name": "神威型"
+    },
+    {
+        "id": 73,
+        "name": "Гангут級",
+        "chinese_name": "甘古特级"
+    },
+    {
+        "id": 74,
+        "name": "占守型",
+        "chinese_name": "占守型"
+    },
+    {
+        "id": 75,
+        "name": "春日丸級",
+        "chinese_name": "春日丸级"
+    },
+    {
+        "id": 76,
+        "name": "大鷹型",
+        "chinese_name": "大鹰型"
+    },
+    {
+        "id": 77,
+        "name": "択捉型",
+        "chinese_name": "择捉型"
+    },
+    {
+        "id": 78,
+        "name": "Ark Royal級",
+        "chinese_name": "皇家方舟级"
+    },
+    {
+        "id": 79,
+        "name": "Richelieu級",
+        "chinese_name": "黎塞留级"
+    },
+    {
+        "id": 80,
+        "name": "Guglielmo Marconi級",
+        "chinese_name": "古列尔莫·马可尼级"
+    }
+]
