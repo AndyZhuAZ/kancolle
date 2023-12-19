@@ -8,7 +8,7 @@ It is similar to the regular expression syntax, but with a few differences.
 
 sample fleet expressions:
 =====================
-BB|BBV|FBB{1,2}[0]-CV|CVB{0,2}-DD|DE*
+(BB,BBV,FBB){1,2}[0]-(CV,CVB){0,2}-(DD,DE)*
 ---------------------
 only have BB,BBV,FBB,CV,CVB,DD,DE, and BB,BBV,FBB have 1 or 2 as flagship(first
 ship),CV,CVB have 0 or 2, DD,DE have 0 or more.
@@ -18,13 +18,17 @@ ship),CV,CVB have 0 or 2, DD,DE have 0 or more.
 have #543(長波改二) as flagship, include #424(高波,高波改,高波改二), #452(沖波,沖波改,沖波改二), #425(朝霜,朝霜改,朝霜改二)
 and the ANY* is not limited other ships.
 =====================
-@30{4,}
+@30{4,}|@38{4,}
 ---------------------
-only have @30(陽炎型) and more than 4 ships.
+only have @30(陽炎型) and more than 4 ships or have @38(夕雲型) and more than 4 ships
 =====================
 #646![0]-ANY*
 ---------------------
 have #646(加賀改二護) as flagship, not limited other ships.
+=====================
+!(BB,BBV,FBB)
+---------------------
+can not have BB
 =====================
 
 >>> from kancolle.fe import resolve
