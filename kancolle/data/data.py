@@ -45,7 +45,7 @@ def load_data(file_name):
         file_name (str): file name
 
     Returns:
-        dict
+        list[dict]: data
     """
     file_name = path.join(MODULE_PATH, file_name)
     with open(file_name, 'r', encoding="utf-8") as f:
