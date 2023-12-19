@@ -20,6 +20,10 @@ class ShipType(object):
         self.id = type_id  # The type id
         self.name = name  # The name
         self.chinese_name = chinese_name  # The Chinese name
+        if english_name == "Fast BB":
+            english_name = "FBB"
+        if english_name == "CLp":
+            english_name = "CT"
         self.english_name = english_name  # The English name
 
 
