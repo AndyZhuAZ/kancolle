@@ -78,6 +78,6 @@ def test_data_download():
 
     data.download()
 
-    assert type(data.load_ship_data()) == list
-    assert type(data.load_ship_class_data()) == list
-    assert type(data.load_ship_type_data()) == list
+    assert type(data.load_ship_data()) is list
+    assert type(data.load_ship_class_data()) is list
+    assert type(data.load_ship_type_data()) is list
