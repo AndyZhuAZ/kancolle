@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.2] - 2023-07-27
+
+### Changed
+
+- Update docs.
+
 ## [0.2.1] - 2023-07-27
 
 ### Added
