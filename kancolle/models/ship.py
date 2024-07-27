@@ -39,7 +39,7 @@ def load_ship(json) -> Ship:
     return Ship(ship_id=json.get('id'), name=json.get('name'), class_id=json.get('ctype'), type_id=json.get('stype'))
 
 
-def load_ships(json_list) -> list[Ship]:
+def load_ship_list(json_list) -> list[Ship]:
     """Load ships from json list.
 
     Args:

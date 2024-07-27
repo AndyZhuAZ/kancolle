@@ -15,6 +15,7 @@ def download():
         "ship.json": "ship/ship.json",
         "shiptype.json": "shiptype/all.json",
         "shipclass.json": "shipclass/all.json",
+        "slotitem.json": "slotitem/all.json",
     }
 
     for filename, _path in file_data.items():
@@ -65,6 +66,11 @@ def load_ship_type_data():
 def load_ship_class_data():
     """Load ship class data."""
     return load_data("shipclass.json")
+
+
+def load_slot_item_data():
+    """Load slotitem data."""
+    return load_data("slotitem.json")
 
 
 if __name__ == '__main__':
