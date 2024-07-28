@@ -8,8 +8,7 @@
 
 
 
-for KanColle assistant software
-
+A PyPl package of KanColle data
 
 * Documentation: <https://andychucs.github.io/kancolle>
 * GitHub: <https://github.com/andychucs/kancolle>
