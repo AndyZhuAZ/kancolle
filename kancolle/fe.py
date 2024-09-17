@@ -6,9 +6,20 @@ For example, a fleet may consist of one BB and two CV, it can be written as BB{1
 Fleet expression are parsed and resolved into a list of components.
 It is similar to the regular expression syntax, but with a few differences.
 
+Syntax Elements:
+- |     : OR operator (e.g., BB|CV means BB or CV)
+- {}    : Quantity specifier (e.g., {1,2} means 1 to 2, {2} means exactly 2, {2,} means 2 or more)
+- []    : Position specifier (e.g., [0] means flagship position)
+- *     : Zero or more of the preceding element
+- !     : Negation (e.g., !(BB|BBV) means no BB or BBV)
+- #     : Specific ship ID
+- @     : Ship class ID
+- ANY   : Any ship
+- level : Ship level condition
+
 sample fleet expressions:
 =====================
-(BB,BBV,FBB){1,2}[0]-(CV,CVB){0,2}-(DD,DE)*
+(BB|BBV|FBB){1,2}[0]-(CV|CVB){0,2}-(DD|DE)*
 ---------------------
 only have BB,BBV,FBB,CV,CVB,DD,DE, and BB,BBV,FBB have 1 or 2 as flagship(first
 ship),CV,CVB have 0 or 2, DD,DE have 0 or more.
@@ -26,9 +37,13 @@ only have @30(陽炎型) and more than 4 ships or have @38(夕雲型) and more t
 ---------------------
 have #646(加賀改二護) as flagship, not limited other ships.
 =====================
-!(BB,BBV,FBB)
+!(BB|BBV|FBB)
 ---------------------
 can not have BB
+=====================
+ANY[0,level>70]
+---------------------
+The flag ship need level upper than 70
 =====================
 
 >>> from kancolle.fe import resolve
@@ -36,7 +51,9 @@ can not have BB
 
 """
 import re
-
+from kancolle.models.ship_class import ShipClass
+from kancolle.models.ship import Ship
+from kancolle.models.ship_type import ShipType
 
 class FleetExpression:
     #  fleet expression.
