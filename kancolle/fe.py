@@ -51,75 +51,102 @@ The flag ship need level upper than 70
 
 """
 import re
-from kancolle.models.ship_class import ShipClass
-from kancolle.models.ship import Ship
-from kancolle.models.ship_type import ShipType
+from typing import List, Dict
+from models import *
+
+class FleetExpressionComponent:
+    def __init__(self, ship_types: List[str], min_count: int, max_count: int, positions: List[int], level_condition: int = 0, negated: bool = False):
+        self.ship_types = ship_types
+        self.min_count = min_count
+        self.max_count = max_count
+        self.positions = positions
+        self.level_condition = level_condition
+        self.negated = negated
 
 class FleetExpression:
-    #  fleet expression.
-
-    lang = 'zh_Hans'
-    expr_list = []
-
-    def __init__(self, expr):
+    def __init__(self, expr: str, lang: str = 'zh_Hans'):
         self.expr = expr
-
-    def __str__(self):
-        return self.expr
+        self.lang = lang
+        self.components: List[FleetExpressionComponent] = []
 
     def resolve(self):
         self.expr_list = self.expr.split('-')
+        for expr in self.expr_list:
+            self.components.append(self.resolve_expr(expr))
+        return self.to_string()
 
-    def resolve_expr(self, expr: str):
-        flag = FleetExpressionFlag(False)
-        # sample: BB|BBV|FBB{1,2}[0]
+    def resolve_expr(self, expr: str) -> FleetExpressionComponent:
+        negated = expr.startswith('!')
+        if negated:
+            expr = expr[1:]
 
-        # match and remove part like [num] save the number
-        match = re.match(r'(.*)\[(.*)]', expr)
-        if match:
-            expr = match.group(1)
-            index = match.group(2)
-            if index.isdigit():
-                if index == '0':
-                    flag.flagship = True
-            else:
-                for _ in index.split(','):
-                    flag.index.append(_)
+        ship_types = []
+        min_count = 1
+        max_count = 1
+        positions = []
+        level_condition = 0
 
-        # match and remove part like {num} or {num,num} {num,} {,num} save the numbers
-        match = re.match(r'(.*)\{(\d+)(?:,(\d+))?\}', expr)
-        if match:
-            expr = match.group(1)
-            min_num = match.group(2)
-            max_num = match.group(3)
-            if max_num is None:
-                max_num = min_num
-            assert type(min_num) is int
-            assert type(max_num) is int
+        # Parse ship types
+        ship_type_match = re.match(r'([\w|@#]+)(?:\{|\[|$)', expr)
+        if ship_type_match:
+            ship_types = ship_type_match.group(1).split('|')
 
-        prefix = self.convert_ship(expr)
+        # Parse quantity
+        quantity_match = re.search(r'\{(\d+)(?:,(\d+))?\}', expr)
+        if quantity_match:
+            min_count = int(quantity_match.group(1))
+            max_count = int(quantity_match.group(2) or min_count)
 
-        return f"have more than {flag.min_num} less than {flag.max_num} {prefix} at {flag.index}"
+        # Parse positions
+        position_match = re.search(r'\[([\d,]+)\]', expr)
+        if position_match:
+            positions = [int(pos) for pos in position_match.group(1).split(',')]
 
-    def convert_ship(self, expr):
+        # Parse level condition
+        level_match = re.search(r'level>(\d+)', expr)
+        if level_match:
+            level_condition = int(level_match.group(1))
+
+        return FleetExpressionComponent(ship_types, min_count, max_count, positions, level_condition, negated)
+
+    def to_string(self) -> str:
         if self.lang == 'zh_Hans':
-            return f"covert expr to words here{expr}"
+            return self._to_chinese()
         else:
-            raise Exception("not support")
+            return self._to_english()
 
+    def _to_chinese(self) -> str:
+        result = []
+        for component in self.components:
+            ship_types = '或'.join(self._convert_ship_type(st) for st in component.ship_types)
+            count = f"{component.min_count}" if component.min_count == component.max_count else f"{component.min_count}到{component.max_count}"
+            positions = '任意位置' if not component.positions else f"位置 {', '.join(map(str, component.positions))}"
+            level = f" 等级大于{component.level_condition}" if component.level_condition > 0 else ""
+            negated = "不能有" if component.negated else "有"
+            result.append(f"{negated}{count}艘{ship_types}在{positions}{level}")
+        return '，'.join(result)
 
-class FleetExpressionFlag:
-    #  fleet expression flag.
-    optional_ship = []
-    max_num = 0
-    min_num = 0
-    index = []
+    def _to_english(self) -> str:
+        result = []
+        for component in self.components:
+            ship_types = ' or '.join(self._convert_ship_type(st) for st in component.ship_types)
+            count = f"{component.min_count}" if component.min_count == component.max_count else f"{component.min_count} to {component.max_count}"
+            positions = 'any position' if not component.positions else f"position(s) {', '.join(map(str, component.positions))}"
+            level = f" with level > {component.level_condition}" if component.level_condition > 0 else ""
+            negated = "Cannot have" if component.negated else "Have"
+            result.append(f"{negated} {count} {ship_types} in {positions}{level}")
+        return ', '.join(result)
 
-    def __init__(self, flagship):
-        self.flagship = flagship
+    def _convert_ship_type(self, ship_type: str) -> str:
+        # This method should be implemented to convert ship types to their proper names
+        # based on the language. For now, we'll just return the ship type as is.
+        return ship_type
 
+def resolve(expr: str, lang: str = 'zh_Hans') -> str:
+    fe = FleetExpression(expr, lang)
+    return fe.resolve()
 
-def resolve(expr: str, lang: str):
-    fe = FleetExpression(expr)
-    fe.lang = lang
-    return str(fe)
+if __name__ == "__main__":
+    expr = "BB|BBV|FBB{1,2}[0]-CV|CVB{0,2}-DD|DE*"
+    print(resolve(expr, 'zh_Hans'))
+    print(resolve(expr, 'en'))
