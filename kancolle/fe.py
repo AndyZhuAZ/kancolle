@@ -51,14 +51,14 @@ The flag ship need level upper than 70
 
 """
 import re
-from typing import List, Dict
-from models import *
+from typing import List, Dict, Union
+from kancolle.models import *
 
 class FleetExpressionComponent:
-    def __init__(self, ship_types: List[str], min_count: int, max_count: int, positions: List[int], level_condition: int = 0, negated: bool = False):
+    def __init__(self, ship_types: List[str], min_count: int, max_count: Union[int, float], positions: List[int], level_condition: int = 0, negated: bool = False):
         self.ship_types = ship_types
         self.min_count = min_count
-        self.max_count = max_count
+        self.max_count = max_count if max_count != '*' else float('inf')
         self.positions = positions
         self.level_condition = level_condition
         self.negated = negated
@@ -90,12 +90,24 @@ class FleetExpression:
         ship_type_match = re.match(r'([\w|@#]+)(?:\{|\[|$)', expr)
         if ship_type_match:
             ship_types = ship_type_match.group(1).split('|')
+            if '*' in expr and 'ANY' not in ship_types:
+                ship_types.append('ANY')
+        else:
+            ship_types = ['ANY']
 
         # Parse quantity
-        quantity_match = re.search(r'\{(\d+)(?:,(\d+))?\}', expr)
+        quantity_match = re.search(r'\{(\d+)(?:,(\d+|\*|))?\}', expr)
         if quantity_match:
             min_count = int(quantity_match.group(1))
-            max_count = int(quantity_match.group(2) or min_count)
+            max_count = quantity_match.group(2)
+            if max_count is None:
+                max_count = min_count  # This handles the {num} case
+            elif max_count == '' or max_count == '*':
+                max_count = float('inf')  # This handles the {num,} case
+            else:
+                max_count = int(max_count)
+        else:
+            min_count = max_count = 1
 
         # Parse positions
         position_match = re.search(r'\[([\d,]+)\]', expr)
@@ -117,13 +129,34 @@ class FleetExpression:
 
     def _to_chinese(self) -> str:
         result = []
+        has_any = any('ANY' in comp.ship_types for comp in self.components)
+        
         for component in self.components:
-            ship_types = '或'.join(self._convert_ship_type(st) for st in component.ship_types)
-            count = f"{component.min_count}" if component.min_count == component.max_count else f"{component.min_count}到{component.max_count}"
-            positions = '任意位置' if not component.positions else f"位置 {', '.join(map(str, component.positions))}"
-            level = f" 等级大于{component.level_condition}" if component.level_condition > 0 else ""
-            negated = "不能有" if component.negated else "有"
-            result.append(f"{negated}{count}艘{ship_types}在{positions}{level}")
+            if 'ANY' in component.ship_types and len(component.ship_types) == 1:
+                continue  # Skip pure ANY components in the main loop
+            
+            ship_types = '/'.join(self._convert_ship_type(st) for st in component.ship_types if st != 'ANY')
+            
+            if component.min_count == component.max_count:
+                count = f"{component.min_count}"
+            elif component.min_count == 0 and component.max_count < float('inf'):
+                count = f"至多{component.max_count}"
+            elif component.min_count > 0 and component.max_count == float('inf'):
+                count = f"至少{component.min_count}"
+            else:
+                count = f"{component.min_count}~{component.max_count}"
+            
+            position = "旗舰" if 0 in component.positions else ""
+            
+            level = f"(等级>{component.level_condition})" if component.level_condition > 0 else ""
+            
+            negated = "不能带" if component.negated else "需要"
+            
+            result.append(f"{negated}{count}个{ship_types}{position}{level}")
+        
+        if not has_any:
+            result.append("不能带其它舰种")
+        
         return '，'.join(result)
 
     def _to_english(self) -> str:
@@ -146,7 +179,3 @@ def resolve(expr: str, lang: str = 'zh_Hans') -> str:
     fe = FleetExpression(expr, lang)
     return fe.resolve()
 
-if __name__ == "__main__":
-    expr = "BB|BBV|FBB{1,2}[0]-CV|CVB{0,2}-DD|DE*"
-    print(resolve(expr, 'zh_Hans'))
-    print(resolve(expr, 'en'))
