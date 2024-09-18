@@ -123,20 +123,24 @@ class FleetExpression:
 
     def to_string(self) -> str:
         if self.lang == 'zh_Hans':
-            return self._to_chinese()
+            return self._to_chinese_simplified()
+        elif self.lang == 'zh_Hant':
+            return self._to_chinese_traditional()
+        elif self.lang == 'ja':
+            return self._to_japanese()
         else:
             return self._to_english()
 
-    def _to_chinese(self) -> str:
+    def _to_chinese_simplified(self) -> str:
         result = []
         has_any = any('ANY' in comp.ship_types for comp in self.components)
-        
+
         for component in self.components:
             if 'ANY' in component.ship_types and len(component.ship_types) == 1:
-                continue  # Skip pure ANY components in the main loop
-            
+                continue
+
             ship_types = '/'.join(self._convert_ship_type(st) for st in component.ship_types if st != 'ANY')
-            
+
             if component.min_count == component.max_count:
                 count = f"{component.min_count}"
             elif component.min_count == 0 and component.max_count < float('inf'):
@@ -145,29 +149,114 @@ class FleetExpression:
                 count = f"至少{component.min_count}"
             else:
                 count = f"{component.min_count}~{component.max_count}"
-            
+
             position = "旗舰" if 0 in component.positions else ""
-            
+
             level = f"(等级>{component.level_condition})" if component.level_condition > 0 else ""
-            
+
             negated = "不能带" if component.negated else "需要"
-            
+
             result.append(f"{negated}{count}个{ship_types}{position}{level}")
-        
+
         if not has_any:
             result.append("不能带其它舰种")
-        
+
         return '，'.join(result)
+
+    def _to_chinese_traditional(self) -> str:
+        result = []
+        has_any = any('ANY' in comp.ship_types for comp in self.components)
+
+        for component in self.components:
+            if 'ANY' in component.ship_types and len(component.ship_types) == 1:
+                continue
+
+            ship_types = '/'.join(self._convert_ship_type(st) for st in component.ship_types if st != 'ANY')
+
+            if component.min_count == component.max_count:
+                count = f"{component.min_count}"
+            elif component.min_count == 0 and component.max_count < float('inf'):
+                count = f"至多{component.max_count}"
+            elif component.min_count > 0 and component.max_count == float('inf'):
+                count = f"至少{component.min_count}"
+            else:
+                count = f"{component.min_count}~{component.max_count}"
+
+            position = "旗艦" if 0 in component.positions else ""
+
+            level = f"(等級>{component.level_condition})" if component.level_condition > 0 else ""
+
+            negated = "不能帶" if component.negated else "需要"
+
+            result.append(f"{negated}{count}個{ship_types}{position}{level}")
+
+        if not has_any:
+            result.append("不能帶其它艦種")
+
+        return '，'.join(result)
+
+    def _to_japanese(self) -> str:
+        result = []
+        has_any = any('ANY' in comp.ship_types for comp in self.components)
+
+        for component in self.components:
+            if 'ANY' in component.ship_types and len(component.ship_types) == 1:
+                continue
+
+            ship_types = '/'.join(self._convert_ship_type(st) for st in component.ship_types if st != 'ANY')
+
+            if component.min_count == component.max_count:
+                count = f"{component.min_count}"
+            elif component.min_count == 0 and component.max_count < float('inf'):
+                count = f"最大{component.max_count}"
+            elif component.min_count > 0 and component.max_count == float('inf'):
+                count = f"少なくとも{component.min_count}"
+            else:
+                count = f"{component.min_count}~{component.max_count}"
+
+            position = "旗艦" if 0 in component.positions else ""
+
+            level = f"(レベル>{component.level_condition})" if component.level_condition > 0 else ""
+
+            negated = "不可" if component.negated else "必要"
+
+            result.append(f"{ship_types}{count}隻{negated}{position}{level}")
+
+        if not has_any:
+            result.append("他の艦種は不可")
+
+        return '、'.join(result)
 
     def _to_english(self) -> str:
         result = []
+        has_any = any('ANY' in comp.ship_types for comp in self.components)
+
         for component in self.components:
-            ship_types = ' or '.join(self._convert_ship_type(st) for st in component.ship_types)
-            count = f"{component.min_count}" if component.min_count == component.max_count else f"{component.min_count} to {component.max_count}"
-            positions = 'any position' if not component.positions else f"position(s) {', '.join(map(str, component.positions))}"
-            level = f" with level > {component.level_condition}" if component.level_condition > 0 else ""
-            negated = "Cannot have" if component.negated else "Have"
-            result.append(f"{negated} {count} {ship_types} in {positions}{level}")
+            if 'ANY' in component.ship_types and len(component.ship_types) == 1:
+                continue
+
+            ship_types = ' or '.join(self._convert_ship_type(st) for st in component.ship_types if st != 'ANY')
+
+            if component.min_count == component.max_count:
+                count = f"exactly {component.min_count}"
+            elif component.min_count == 0 and component.max_count < float('inf'):
+                count = f"up to {component.max_count}"
+            elif component.min_count > 0 and component.max_count == float('inf'):
+                count = f"at least {component.min_count}"
+            else:
+                count = f"{component.min_count} to {component.max_count}"
+
+            position = " as flagship" if 0 in component.positions else ""
+
+            level = f" (level > {component.level_condition})" if component.level_condition > 0 else ""
+
+            negated = "Cannot have" if component.negated else "Require"
+
+            result.append(f"{negated} {count} {ship_types}{position}{level}")
+
+        if not has_any:
+            result.append("No other ship types allowed")
+
         return ', '.join(result)
 
     def _convert_ship_type(self, ship_type: str) -> str:
